@@ -14,20 +14,22 @@ namespace WindowsFormsApp3
         public int X { get; private set; }
         public int Y { get; private set; }
         public bool is_activated { get; private set; }
-
+        public int id { get; private set; }
         public bool is_terminal { get; private set; }
 
         public NodePoint discovered_via { get; set; }
 
         public List<NodePoint> edges;
 
-        public NodePoint(int X, int Y)
+        public NodePoint(int X, int Y, int id = -1)
         {
             this.X = X;
             this.Y = Y;
             this.is_activated = false;
             this.is_terminal = false;
             this.edges = new List<NodePoint>();
+            this.discovered_via = null;
+            this.id = id;
         }
         public static NodePoint adjust_center(int x, int y)
         {

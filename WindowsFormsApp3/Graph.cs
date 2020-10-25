@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WindowsFormsApp3
 {
     public class Graph
     {
-        //public NodePoint start;
-        //public NodePoint end;
         public List<NodePoint> nodes;
         public List<NodePoint> current_selection;
-        public Queue<NodePoint> terminals;
+        public List<NodePoint> terminals;
         private Queue<NodePoint> node_queue;
 
         public Graph()
         {
-            //this.start = null;
-            //this.end = null;
             this.nodes = new List<NodePoint>();
             this.node_queue = new Queue<NodePoint>();
             this.current_selection = new List<NodePoint>();
-            this.terminals = new Queue<NodePoint>();
+            this.terminals = new List<NodePoint>();
+        }
+
+        public void reset()
+        {
+            this.nodes.Clear();
+            this.current_selection.Clear();
+            this.terminals.Clear();
+            this.node_queue.Clear();
         }
 
         public void add_node(NodePoint node)
@@ -37,16 +42,26 @@ namespace WindowsFormsApp3
 
         public void queue_terminal(NodePoint node)
         {
-            NodePoint extra_node;
+            int index;
 
-            
-            if (this.node_queue.Count >= 2)
+            index = this.terminals.IndexOf(node);
+            if (index >= 0)
             {
-                extra_node = this.node_queue.Dequeue();
-                extra_node.toggle_terminal();
+                this.terminals[index].toggle_terminal();
+                this.terminals.RemoveAt(index);
             }
-            node.toggle_terminal();
-            this.node_queue.Enqueue(node);
+            else if (this.terminals.Count == 2)
+            {
+                this.terminals[0].toggle_terminal();
+                this.terminals.RemoveAt(0);
+                node.toggle_terminal();
+                this.terminals.Add(node);
+            }
+            else
+            {
+                node.toggle_terminal();
+                this.terminals.Add(node);
+            }
         }
 
         public void process_selection()
@@ -70,25 +85,79 @@ namespace WindowsFormsApp3
             }
         }
 
-        //public void set_start()
-        //{
-        //    if (this.current_selection.Count == 1)
-        //    {
-        //        this.start = this.current_selection[0];
-        //        this.start.toggle_terminal();
-        //        this.start.toggle();
-        //    }
-        //}
+        private void discover_edges(NodePoint node) //deprecated
+        {
+            foreach (NodePoint _node in node.edges)
+            {
+                if (_node.discovered_via == null)
+                    _node.discovered_via = node;
+            }
+        }
 
-        //public void set_end()
-        //{
-        //    if (this.current_selection.Count == 1)
-        //    {
-        //        this.end = this.current_selection[0];
-        //        this.end.toggle_terminal();
-        //        this.end.toggle();
-        //    }
-        //}
+        private void enqueue_and_discover(NodePoint node)
+        {
+            foreach (NodePoint _node in node.edges)
+            {
+                if (_node.discovered_via == null)
+                {
+                    this.node_queue.Enqueue(_node);
+                    _node.discovered_via = node;
+                }
+            }
+        }
+
+        private void reset_discovered()
+        {
+            foreach (NodePoint node in this.nodes)
+            {
+                node.discovered_via = null;
+            }
+        }
+
+        public List<NodePoint> backtrack(NodePoint terminal)
+        {
+            List<NodePoint> path;
+            NodePoint current_node;
+
+            path = new List<NodePoint>();
+            current_node = terminal;
+            while (current_node != this.terminals[0])
+            {
+                path.Add(current_node);
+                current_node = current_node.discovered_via;
+            }
+            path.Add(current_node);
+
+            return path;
+        }
+
+        public List<NodePoint> find_path()
+        {
+            NodePoint current_node;
+
+            reset_discovered();
+            if (this.terminals.Count != 2)
+            {
+                Utility.display_message("Select two points to find a path!");
+                return null;
+            }
+            enqueue_and_discover(this.terminals[0]);
+            while (this.node_queue.Count != 0)
+            {
+                current_node = this.node_queue.Dequeue();
+                if (current_node == this.terminals[1])
+                {
+                    //Utility.display_message("Path found");
+                    return backtrack(current_node);
+                }
+                if (current_node == this.terminals[0])
+                    continue;
+                enqueue_and_discover(current_node);
+            }
+            Utility.display_message("No path found");
+
+            return null;
+        }
 
         public void reset_edges()
         {
@@ -101,11 +170,8 @@ namespace WindowsFormsApp3
         public void clear()
         {
             this.nodes.Clear();
-            //this.start = null;
-            //this.end = null;
             this.current_selection.Clear();
             this.node_queue.Clear();
         }
-
     }
 }

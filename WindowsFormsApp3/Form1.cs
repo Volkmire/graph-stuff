@@ -13,31 +13,49 @@ namespace WindowsFormsApp3
 {
     public partial class Form1 : Form
     {
+        private const int default_preset_size = 10;
         private int distance_tolerance;
-
         public NodePoint point { get; private set; } //deprecated
-        //public List<NodePoint> points;
-        //public List<NodePoint> current_selection;
         public Graph graph;
+        public List<NodePoint> path;
         private Pen default_pen;
+        private Pen path_pen;
 
         public Form1()
         {
             InitializeComponent();
             node_mode_rb.Checked = true;
             this.point = new NodePoint(-1, -1);
-            //this.points = new List<NodePoint>();
-            //this.current_selection = new List<NodePoint>();
             this.graph = new Graph();
             this.default_pen = new Pen(Color.LightSkyBlue, 2);
+            this.path_pen = new Pen(Color.DarkRed, 3);
             this.distance_tolerance = 10;
+            this.path = null;
         }
 
-        private void draw_edges(NodePoint node, Graphics graphics)
+        private void full_reset()
+        {
+            this.graph.reset();
+            this.path = null;
+        }
+
+        private void draw_edges(NodePoint node, Graphics graphics, Pen pen)
         {
             foreach (NodePoint current_edge in node.edges)
             {
-                draw_line(node, current_edge, graphics);
+                draw_line(node, current_edge, graphics, pen);
+            }
+        }
+
+        private void draw_path(List<NodePoint> path, Graphics graphics, Pen pen)
+        {
+            int n;
+
+            n = 1;
+            while (n < path.Count)
+            {
+                draw_line(path[n - 1], path[n], graphics, pen);
+                n++;
             }
         }
 
@@ -49,13 +67,25 @@ namespace WindowsFormsApp3
             foreach (NodePoint node in this.graph.nodes)
             {
                 node.draw(graphics);
-                draw_edges(node, graphics);
+                draw_edges(node, graphics, this.default_pen);
+            }
+            if (this.path != null)
+            {
+                draw_path(path, graphics, path_pen);
             }
         }
 
-        private void draw_line(NodePoint a, NodePoint b, Graphics graphics)
+        private void draw_line(NodePoint a, NodePoint b, Graphics graphics, Pen pen)
         {
-            graphics.DrawLine(this.default_pen, a.X, a.Y, b.X, b.Y);
+            graphics.DrawLine(pen, a.X, a.Y, b.X, b.Y);
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            if (this.graph.nodes.Count > 0)
+            {
+                redraw_nodes(e);
+            }
         }
 
         private int get_point_index_on_click(MouseEventArgs e)
@@ -91,7 +121,6 @@ namespace WindowsFormsApp3
                 {
                     if (Utility.gcd(n + 1, m + 1) != 1)
                     {
-                        //MessageBox.Show(n.ToString() + m.ToString());
                         this.graph.nodes[n].add_edge(this.graph.nodes[m]);
                     }
                     m++;
@@ -109,6 +138,7 @@ namespace WindowsFormsApp3
             int number_of_rowcolumns;
             int current_row;
             int current_col;
+            NodePoint node;
 
             number_of_rowcolumns = Utility.get_closest_int_sqrt(size);
             n = 0;
@@ -121,7 +151,8 @@ namespace WindowsFormsApp3
                 y = current_row % 2 == 0 ? increment : increment + increment / 2;
                 while (current_col < number_of_rowcolumns)
                 {
-                    this.graph.add_node(new NodePoint(current_col % 2 == 0 ? x : x + increment / 2, y));
+                    node = new NodePoint(current_col % 2 == 0 ? x : x + increment / 2, y, this.graph.nodes.Count);
+                    this.graph.add_node(node);
                     y += increment;
                     current_col += 1;
 
@@ -134,14 +165,6 @@ namespace WindowsFormsApp3
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-            if (this.graph.nodes.Count > 0)
-            {
-                redraw_nodes(e);
-            }
-        }
-
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
             NodePoint node;
@@ -150,13 +173,13 @@ namespace WindowsFormsApp3
             index = get_point_index_on_click(e);
             if (node_mode_rb.Checked)
             {
-                if (index >= 0) // there is a point there
+                if (index >= 0) // there is a node there
                 {
                     this.graph.queue_terminal(this.graph.nodes[index]);
                 }
                 else
                 {
-                    node = new NodePoint(e.X, e.Y);
+                    node = new NodePoint(e.X, e.Y, this.graph.nodes.Count);
                     this.graph.add_node(node);
                 }
                 panel1.Invalidate();
@@ -185,14 +208,21 @@ namespace WindowsFormsApp3
         private void reset_button_Click(object sender, EventArgs e)
         {
             this.graph.reset_edges();
+            this.path = null;
             panel1.Invalidate();
         }
 
         private void preset_button_Click(object sender, EventArgs e)
         {
-            this.graph.clear();
-            get_preset(15);
+            this.full_reset();
+            get_preset(default_preset_size);
             connect_preset();
+            panel1.Invalidate();
+        }
+
+        private void find_path_button_Click(object sender, EventArgs e)
+        {
+            this.path = this.graph.find_path();
             panel1.Invalidate();
         }
     }

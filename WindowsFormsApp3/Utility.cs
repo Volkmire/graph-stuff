@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WindowsFormsApp3
 {
@@ -27,6 +28,19 @@ namespace WindowsFormsApp3
             if (r == 0)
                 return b;
             return gcd(b, r);
+        }
+
+        public static void enqueue_list_content<T>(Queue<T> queue, List<T> list)
+        {
+            foreach (T item in list)
+            {
+                queue.Enqueue(item);
+            }
+        }
+
+        public static void display_message(string message)
+        {
+            MessageBox.Show(message);
         }
     }
 }

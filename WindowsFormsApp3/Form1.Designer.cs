@@ -34,6 +34,7 @@
             this.edge_mode_rb = new System.Windows.Forms.RadioButton();
             this.reset_button = new System.Windows.Forms.Button();
             this.preset_button = new System.Windows.Forms.Button();
+            this.find_path_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panel1
@@ -106,12 +107,26 @@
             this.preset_button.UseVisualStyleBackColor = false;
             this.preset_button.Click += new System.EventHandler(this.preset_button_Click);
             // 
+            // find_path_button
+            // 
+            this.find_path_button.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.find_path_button.Cursor = System.Windows.Forms.Cursors.Default;
+            this.find_path_button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.find_path_button.Location = new System.Drawing.Point(448, 225);
+            this.find_path_button.Name = "find_path_button";
+            this.find_path_button.Size = new System.Drawing.Size(101, 40);
+            this.find_path_button.TabIndex = 5;
+            this.find_path_button.Text = "FIND PATH";
+            this.find_path_button.UseVisualStyleBackColor = false;
+            this.find_path_button.Click += new System.EventHandler(this.find_path_button_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(565, 450);
+            this.Controls.Add(this.find_path_button);
             this.Controls.Add(this.preset_button);
             this.Controls.Add(this.reset_button);
             this.Controls.Add(this.edge_mode_rb);
@@ -133,6 +148,7 @@
         private System.Windows.Forms.RadioButton edge_mode_rb;
         private System.Windows.Forms.Button reset_button;
         private System.Windows.Forms.Button preset_button;
+        private System.Windows.Forms.Button find_path_button;
     }
 }
 

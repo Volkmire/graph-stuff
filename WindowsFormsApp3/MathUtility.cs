@@ -7,13 +7,13 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp3
 {
-    class Utility
+    class MathUtility
     {
         public static int get_closest_int_sqrt(int n)
         {
             return (int)Math.Sqrt(n) + 1;
         }
-        
+
         public static int gcd(int a, int b) //a = xb + r
         {
             int r;
@@ -29,18 +29,15 @@ namespace WindowsFormsApp3
                 return b;
             return gcd(b, r);
         }
-
-        public static void enqueue_list_content<T>(Queue<T> queue, List<T> list)
+        public static double get_distance(NodePoint p, NodePoint q)
         {
-            foreach (T item in list)
-            {
-                queue.Enqueue(item);
-            }
-        }
+            double dx_squared;
+            double dy_squared;
 
-        public static void display_message(string message)
-        {
-            MessageBox.Show(message);
+            dx_squared = Math.Pow((p.X - q.X), 2);
+            dy_squared = Math.Pow((p.Y - q.Y), 2);
+
+            return Math.Sqrt(dx_squared + dy_squared);
         }
     }
 }

@@ -201,7 +201,6 @@
             this.Controls.Add(this.panel1);
             this.Name = "Form1";
             this.Text = "Graph Stuff v0.1";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.preset_size_up_down)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

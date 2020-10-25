@@ -33,11 +33,6 @@ namespace WindowsFormsApp3
             this.path.Clear();
         }
 
-        public void add_node(NodePoint node)
-        {
-            this.nodes.Add(node);
-        }
-
         public void add_to_selection(NodePoint node)
         {
             this.current_selection.Add(node);
@@ -134,8 +129,7 @@ namespace WindowsFormsApp3
             this.path.Clear();
             if (this.terminals.Count != 2)
             {
-                Utility.display_message("Select two points to find a path!");
-                return this.path;
+                throw new Exception("Select two points to find a path!");
             }
             enqueue_and_discover(this.terminals[0]);
             while (this.node_queue.Count != 0)
@@ -143,16 +137,13 @@ namespace WindowsFormsApp3
                 current_node = this.node_queue.Dequeue();
                 if (current_node == this.terminals[1])
                 {
-                    //Utility.display_message("Path found");
                     return backtrack(current_node);
                 }
                 if (current_node == this.terminals[0])
                     continue;
                 enqueue_and_discover(current_node);
             }
-            Utility.display_message("No path found");
-
-            return this.path;
+            throw new Exception("There is no path");
         }
 
         public void reset_edges()

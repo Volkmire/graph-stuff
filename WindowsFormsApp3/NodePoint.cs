@@ -41,7 +41,6 @@ namespace WindowsFormsApp3
             if (this.find_edge(node) == -1)
             {
                 this.edges.Add(node);
-
                 node.edges.Add(this); // the graph is undirected for now;
             }
         }
@@ -77,43 +76,6 @@ namespace WindowsFormsApp3
         public void toggle_terminal()
         {
             this.is_terminal = this.is_terminal ? false : true;
-        }
-
-        public static double get_distance(NodePoint p, NodePoint q)
-        {
-            double dx_squared;
-            double dy_squared;
-
-            dx_squared = Math.Pow((p.X - q.X), 2);
-            dy_squared = Math.Pow((p.Y - q.Y), 2);
-
-            return Math.Sqrt(dx_squared + dy_squared);
-        }
-        public void draw(Graphics graphics)
-        {
-            Pen pen;
-            Brush brush;
-            NodePoint point;
-
-            pen = new Pen(Color.Black, 2);
-            point = adjust_center(this.X, this.Y);
-            graphics.DrawEllipse(pen, point.X, point.Y, node_radius, node_radius);
-            
-            if (this.is_terminal == true)
-            {
-                brush = new SolidBrush(Color.Green);
-                graphics.FillEllipse(brush, point.X, point.Y, node_radius, node_radius);
-            }
-            else if (this.is_activated == true)
-            {
-                brush = new SolidBrush(Color.Red);
-                graphics.FillEllipse(brush, point.X, point.Y, node_radius, node_radius);
-            }
-        }
-
-        public void display()
-        {
-            MessageBox.Show("NodePoint at " + this.X + ", " + this.Y);
         }
     }
 

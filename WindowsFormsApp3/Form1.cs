@@ -13,11 +13,11 @@ namespace WindowsFormsApp3
 {
     public partial class Form1 : Form
     {
-        private const int default_preset_size = 10;
+        private const int default_preset_size = 12;
+        private int preset_size;
         private int distance_tolerance;
         public NodePoint point { get; private set; } //deprecated
         public Graph graph;
-        public List<NodePoint> path;
         private Pen default_pen;
         private Pen path_pen;
 
@@ -30,13 +30,12 @@ namespace WindowsFormsApp3
             this.default_pen = new Pen(Color.LightSkyBlue, 2);
             this.path_pen = new Pen(Color.DarkRed, 3);
             this.distance_tolerance = 10;
-            this.path = null;
+            this.preset_size = (int)preset_size_up_down.Value;
         }
 
         private void full_reset()
         {
             this.graph.reset();
-            this.path = null;
         }
 
         private void draw_edges(NodePoint node, Graphics graphics, Pen pen)
@@ -69,9 +68,9 @@ namespace WindowsFormsApp3
                 node.draw(graphics);
                 draw_edges(node, graphics, this.default_pen);
             }
-            if (this.path != null)
+            if (this.graph.path.Count != 0)
             {
-                draw_path(path, graphics, path_pen);
+                draw_path(this.graph.path, graphics, path_pen);
             }
         }
 
@@ -201,29 +200,54 @@ namespace WindowsFormsApp3
 
         private void clear_button_Click(object sender, EventArgs e)
         {
-            this.graph.clear();
+            this.graph.reset();
             panel1.Invalidate();
         }
 
         private void reset_button_Click(object sender, EventArgs e)
         {
             this.graph.reset_edges();
-            this.path = null;
+            this.graph.reset_discovered();
+            this.graph.path.Clear();
             panel1.Invalidate();
         }
 
         private void preset_button_Click(object sender, EventArgs e)
         {
             this.full_reset();
-            get_preset(default_preset_size);
+            get_preset(preset_size);
             connect_preset();
             panel1.Invalidate();
         }
 
         private void find_path_button_Click(object sender, EventArgs e)
         {
-            this.path = this.graph.find_path();
+            this.graph.path = this.graph.find_path();
             panel1.Invalidate();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            ;
+        }
+
+        private void help_button_Click(object sender, EventArgs e)
+        {
+            string message;
+
+            message = "This is a toy pathfinding program.\n" +
+            "To add a node, click the panel in NODE MODE;\n" + 
+            "To add an edge, click two nodes in EDGE MODE;\n" + 
+            "To remove an edge, click two nodes that have a common edge;\n" +
+            "To find a path, select two nodes in NODE MODE and click FIND PATH;\n" +
+            "To use a premade graph, click USE PRESET.";
+
+            Utility.display_message(message);
+        }
+
+        private void preset_size_up_down_ValueChanged(object sender, EventArgs e)
+        {
+            this.preset_size = (int)preset_size_up_down.Value;
         }
     }
 }

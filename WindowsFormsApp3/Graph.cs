@@ -12,6 +12,7 @@ namespace WindowsFormsApp3
         public List<NodePoint> nodes;
         public List<NodePoint> current_selection;
         public List<NodePoint> terminals;
+        public List<NodePoint> path;
         private Queue<NodePoint> node_queue;
 
         public Graph()
@@ -20,6 +21,7 @@ namespace WindowsFormsApp3
             this.node_queue = new Queue<NodePoint>();
             this.current_selection = new List<NodePoint>();
             this.terminals = new List<NodePoint>();
+            this.path = new List<NodePoint>();
         }
 
         public void reset()
@@ -28,6 +30,7 @@ namespace WindowsFormsApp3
             this.current_selection.Clear();
             this.terminals.Clear();
             this.node_queue.Clear();
+            this.path.Clear();
         }
 
         public void add_node(NodePoint node)
@@ -78,6 +81,7 @@ namespace WindowsFormsApp3
                 else
                 {
                     this.current_selection[0].remove_edge(this.current_selection[1]);
+                    this.path.Clear();
                 }
                 this.current_selection[0].toggle();
                 this.current_selection[1].toggle();
@@ -106,29 +110,19 @@ namespace WindowsFormsApp3
             }
         }
 
-        private void reset_discovered()
-        {
-            foreach (NodePoint node in this.nodes)
-            {
-                node.discovered_via = null;
-            }
-        }
-
         public List<NodePoint> backtrack(NodePoint terminal)
         {
-            List<NodePoint> path;
             NodePoint current_node;
 
-            path = new List<NodePoint>();
             current_node = terminal;
             while (current_node != this.terminals[0])
             {
-                path.Add(current_node);
+                this.path.Add(current_node);
                 current_node = current_node.discovered_via;
             }
-            path.Add(current_node);
+            this.path.Add(current_node);
 
-            return path;
+            return this.path;
         }
 
         public List<NodePoint> find_path()
@@ -136,10 +130,12 @@ namespace WindowsFormsApp3
             NodePoint current_node;
 
             reset_discovered();
+            this.node_queue.Clear();
+            this.path.Clear();
             if (this.terminals.Count != 2)
             {
                 Utility.display_message("Select two points to find a path!");
-                return null;
+                return this.path;
             }
             enqueue_and_discover(this.terminals[0]);
             while (this.node_queue.Count != 0)
@@ -156,7 +152,7 @@ namespace WindowsFormsApp3
             }
             Utility.display_message("No path found");
 
-            return null;
+            return this.path;
         }
 
         public void reset_edges()
@@ -167,11 +163,12 @@ namespace WindowsFormsApp3
             }
         }
 
-        public void clear()
+        public void reset_discovered()
         {
-            this.nodes.Clear();
-            this.current_selection.Clear();
-            this.node_queue.Clear();
+            foreach (NodePoint node in this.nodes)
+            {
+                node.discovered_via = null;
+            }
         }
     }
 }

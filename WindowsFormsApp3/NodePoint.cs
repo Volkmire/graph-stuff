@@ -10,49 +10,48 @@ namespace WindowsFormsApp3
 {
     public class NodePoint
     {
-        public const int node_radius = 10;
+        public const int Radius = 10;
         public int X { get; private set; }
         public int Y { get; private set; }
-        public bool is_activated { get; private set; }
-        public int id { get; private set; }
-        public bool is_terminal { get; private set; }
+        public bool IsActivated { get; private set; }
+        public int Id { get; private set; }
+        public bool IsTerminal { get; private set; }
 
-        public NodePoint discovered_via { get; set; }
+        public NodePoint DiscoveredBy { get; set; }
 
-        public List<NodePoint> edges;
+        public List<NodePoint> Edges { get; }
 
-        public NodePoint(int X, int Y, int id = -1)
+        public NodePoint(int x, int y, int id = -1)
         {
-            this.X = X;
-            this.Y = Y;
-            this.is_activated = false;
-            this.is_terminal = false;
-            this.edges = new List<NodePoint>();
-            this.discovered_via = null;
-            this.id = id;
+            X = x;
+            Y = y;
+            IsActivated = false;
+            IsTerminal = false;
+            Edges = new List<NodePoint>();
+            DiscoveredBy = null;
+            Id = id;
         }
-        public static NodePoint adjust_center(int x, int y)
+        public static NodePoint AdjustCenter(int x, int y)
         {
-            return new NodePoint(x - node_radius / 2, y - node_radius / 2);
+            return new NodePoint(x - Radius / 2, y - Radius / 2);
         }
 
-        public void add_edge(NodePoint node)
+        public void AddEdge(NodePoint node)
         {
-            if (this.find_edge(node) == -1)
+            if (!Edges.Contains(node))
             {
-                this.edges.Add(node);
-                node.edges.Add(this); // the graph is undirected for now;
+                Edges.Add(node);
+                node.Edges.Add(this); // the graph is undirected for now;
             }
         }
         
-        public int find_edge(NodePoint edge)
+        public int FindEdge(NodePoint edge)
         {
-            int n;
+            int n = 0;
 
-            n = 0;
-            while (n < this.edges.Count)
+            while (n < Edges.Count)
             {
-                if (this.edges[n] == edge)
+                if (Edges[n] == edge)
                 {
                     return n;
                 }
@@ -62,20 +61,20 @@ namespace WindowsFormsApp3
             return -1;
         }
 
-        public void remove_edge(NodePoint node)
+        public void RemoveEdge(NodePoint node)
         {
-            this.edges.Remove(node);
-            node.edges.Remove(this);
+            Edges.Remove(node);
+            node.Edges.Remove(this);
         }
 
-        public void toggle()
+        public void ToggleActive()
         {
-            this.is_activated = this.is_activated ? false : true;
+            IsActivated = !IsActivated;
         }
 
-        public void toggle_terminal()
+        public void ToggleTerminal()
         {
-            this.is_terminal = this.is_terminal ? false : true;
+            IsTerminal = !IsTerminal;
         }
     }
 

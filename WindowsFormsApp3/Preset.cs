@@ -8,20 +8,19 @@ namespace WindowsFormsApp3
 {
     public class Preset
     {
-        public static void connect_preset(Graph graph)
+        public static void ConnectPreset(Graph graph)
         {
-            int n;
             int m;
+            int n = 0;            
 
-            n = 0;
-            while (n < graph.nodes.Count)
+            while (n < graph.Nodes.Count)
             {
                 m = n + 1;
-                while (m < graph.nodes.Count)
+                while (m < graph.Nodes.Count)
                 {
-                    if (MathUtility.gcd(n + 1, m + 1) != 1)
+                    if (MathUtility.GetGreaterCommonDivisor(n + 1, m + 1) != 1)
                     {
-                        graph.nodes[n].add_edge(graph.nodes[m]);
+                        graph.Nodes[n].AddEdge(graph.Nodes[m]);
                     }
                     m++;
                 }
@@ -29,30 +28,26 @@ namespace WindowsFormsApp3
             }
         }
 
-        public static void get_preset(int size, int width, int height, Graph graph)
+        public static void GetPreset(int size, int width, int height, Graph graph)
         {
-            int n;
-            int x;
-            int y;
-            int increment;
-            int number_of_rowcolumns;
-            int current_row;
-            int current_col;
-            NodePoint node;
 
-            number_of_rowcolumns = MathUtility.get_closest_int_sqrt(size);
-            n = 0;
-            current_row = 0;
-            increment = (Math.Min(width, height) - 2 * NodePoint.node_radius) / (number_of_rowcolumns + 1);
-            x = increment;
-            while (current_row < number_of_rowcolumns)
+            NodePoint node;
+            int n = 0;
+            int numberOfRowCollumns = MathUtility.GetClosestSqrtInteger(size);
+            int increment = (Math.Min(width, height) - 2 * NodePoint.Radius) / (numberOfRowCollumns + 1);            
+            int x = increment;
+            int y;
+            int current_row = 0;
+            int current_col;
+
+            while (current_row < numberOfRowCollumns)
             {
                 current_col = 0;
                 y = current_row % 2 == 0 ? increment : increment + increment / 2;
-                while (current_col < number_of_rowcolumns)
+                while (current_col < numberOfRowCollumns)
                 {
-                    node = new NodePoint(current_col % 2 == 0 ? x : x + increment / 2, y, graph.nodes.Count);
-                    graph.nodes.Add(node);
+                    node = new NodePoint(current_col % 2 == 0 ? x : x + increment / 2, y, graph.Nodes.Count);
+                    graph.Nodes.Add(node);
                     y += increment;
                     current_col += 1;
 

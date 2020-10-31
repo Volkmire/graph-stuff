@@ -10,63 +10,61 @@ namespace WindowsFormsApp3
 {
     class DisplayUtility
     {
-        public static void display_message(string message)
+        public static void DisplayMessage(string message)
         {
             MessageBox.Show(message);
         }
 
-        public static void draw_node(Graphics graphics, NodePoint node, int radius, bool is_terminal, bool is_activated)
+        public static void DrawNode(Graphics graphics, NodePoint node, int radius, bool isTerminal, bool isActivated)
         {
-            Pen pen;
             Brush brush;
-            NodePoint point;
+            Pen pen = new Pen(Color.Black, 2);            
+            NodePoint point = NodePoint.AdjustCenter(node.X, node.Y); ;
 
-            pen = new Pen(Color.Black, 2);
-            point = NodePoint.adjust_center(node.X, node.Y);
             graphics.DrawEllipse(pen, point.X, point.Y, radius, radius);
 
-            if (is_terminal == true)
+            if (isTerminal == true)
             {
                 brush = new SolidBrush(Color.Green);
                 graphics.FillEllipse(brush, point.X, point.Y, radius, radius);
             }
-            else if (is_activated == true)
+            else if (isActivated == true)
             {
                 brush = new SolidBrush(Color.Red);
                 graphics.FillEllipse(brush, point.X, point.Y, radius, radius);
             }
+            
         }
 
-        private static void draw_line(NodePoint a, NodePoint b, Graphics graphics, Pen pen)
+        private static void DrawLine(NodePoint a, NodePoint b, Graphics graphics, Pen pen)
         {
             graphics.DrawLine(pen, a.X, a.Y, b.X, b.Y);
         }
-        private static void draw_edges(NodePoint node, Graphics graphics, Pen pen)
+
+        private static void DrawEdges(NodePoint node, Graphics graphics, Pen pen)
         {
-            foreach (NodePoint current_edge in node.edges)
-            {
-                draw_line(node, current_edge, graphics, pen);
-            }
+            foreach (NodePoint edge in node.Edges)
+                DrawLine(node, edge, graphics, pen);
         }
-        private static void draw_path(List<NodePoint> path, Graphics graphics, Pen pen)
+        private static void DrawPath(List<NodePoint> path, Graphics graphics, Pen pen)
         {
             int n;
 
             n = 1;
             while (n < path.Count)
             {
-                draw_line(path[n - 1], path[n], graphics, pen);
+                DrawLine(path[n - 1], path[n], graphics, pen);
                 n++;
             }
         }
-        public static void draw_graph(Graphics graphics, Pen default_pen, Pen path_pen, Graph graph)
+        public static void DrawGraph(Graphics graphics, Pen defaultPen, Pen pathPen, Graph graph)
         {
-            foreach (NodePoint node in graph.nodes)
+            foreach (NodePoint node in graph.Nodes)
             {
-                draw_node(graphics, node, NodePoint.node_radius, node.is_terminal, node.is_activated);
-                draw_edges(node, graphics, default_pen);
+                DrawNode(graphics, node, NodePoint.Radius, node.IsTerminal, node.IsActivated);
+                DrawEdges(node, graphics, defaultPen);
             }
-            draw_path(graph.path, graphics, path_pen);
+            DrawPath(graph.Path, graphics, pathPen);
         }
     }
 }

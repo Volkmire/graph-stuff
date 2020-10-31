@@ -1,0 +1,10 @@
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\bin\Debug\WindowsFormsApp3.exe.config
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\bin\Debug\WindowsFormsApp3.exe
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\bin\Debug\WindowsFormsApp3.pdb
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\obj\Debug\GraphStuff.csprojAssemblyReference.cache
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.Form1.resources
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.Properties.Resources.resources
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\obj\Debug\GraphStuff.csproj.GenerateResource.cache
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\obj\Debug\GraphStuff.csproj.CoreCompileInputs.cache
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.exe
+C:\Users\SIGMA11\source\repos\GraphGUI\WindowsFormsApp3\obj\Debug\WindowsFormsApp3.pdb

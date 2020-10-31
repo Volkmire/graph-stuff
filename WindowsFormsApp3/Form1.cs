@@ -13,54 +13,51 @@ namespace WindowsFormsApp3
 {
     public partial class Form1 : Form
     {
-        private const int default_preset_size = 12;
-        private int preset_size;
-        private int distance_tolerance;
-        public NodePoint point { get; private set; } //deprecated
-        public Graph graph;
-        private Pen default_pen;
-        private Pen path_pen;
+        private int PresetSize;
+        private int Tolerance;
+        public Graph Graph;
+        private Pen DefaultPen;
+        private Pen PathPen;
 
         public Form1()
         {
             InitializeComponent();
             node_mode_rb.Checked = true;
-            this.point = new NodePoint(-1, -1);
-            this.graph = new Graph();
-            this.default_pen = new Pen(Color.LightSkyBlue, 2);
-            this.path_pen = new Pen(Color.DarkRed, 3);
-            this.distance_tolerance = 10;
-            this.preset_size = (int)preset_size_up_down.Value;
+            Graph = new Graph();
+            DefaultPen = new Pen(Color.LightSkyBlue, 2);
+            PathPen = new Pen(Color.DarkRed, 3);
+            Tolerance = 10;
+            PresetSize = (int)preset_size_up_down.Value;
         }
 
-        private void redraw_nodes(PaintEventArgs e)
+        private void RedrawNodes(PaintEventArgs e)
         {
-            Graphics graphics;
+            Graphics Graphics;
 
-            graphics = e.Graphics;
-            DisplayUtility.draw_graph(graphics, this.default_pen, this.path_pen, this.graph);
+            Graphics = e.Graphics;
+            DisplayUtility.DrawGraph(Graphics, this.DefaultPen, this.PathPen, this.Graph);
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            if (this.graph.nodes.Count > 0)
+            if (Graph.Nodes.Count > 0)
             {
-                redraw_nodes(e);
+                RedrawNodes(e);
             }
         }
 
         private int get_node_index_on_click(MouseEventArgs e)
         {
-            NodePoint clicked_point;
+            NodePoint clicked_Point;
             double distance;
             int index;
 
             index = 0;
-            clicked_point = new NodePoint(e.X, e.Y);
-            while (index < this.graph.nodes.Count)
+            clicked_Point = new NodePoint(e.X, e.Y);
+            while (index < Graph.Nodes.Count)
             {
-                distance = MathUtility.get_distance(this.graph.nodes[index], clicked_point);
-                if (distance < distance_tolerance)
+                distance = MathUtility.GetDistance(this.Graph.Nodes[index], clicked_Point);
+                if (distance < Tolerance)
                 {
                     return index;
                 }
@@ -72,52 +69,54 @@ namespace WindowsFormsApp3
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
             NodePoint node;
-            int index;
+            int index = get_node_index_on_click(e);
 
-            index = get_node_index_on_click(e);
             if (node_mode_rb.Checked)
             {
                 if (index >= 0) // there is a node there
                 {
-                    this.graph.queue_terminal(this.graph.nodes[index]);
+                    Graph.QueueTerminal(Graph.Nodes[index]);
                 }
                 else
                 {
-                    node = new NodePoint(e.X, e.Y, this.graph.nodes.Count);
-                    this.graph.nodes.Add(node);
+                    node = new NodePoint(e.X, e.Y, Graph.Nodes.Count);
+                    Graph.Nodes.Add(node);
                 }
             }
             else
             {
                 if (index < 0)
                     return;
-                node = this.graph.nodes[index];
-                node.toggle();
-                this.graph.add_to_selection(node);
-                this.graph.process_selection();
+
+                node = Graph.Nodes[index];
+                node.ToggleActive();
+
+                Graph.AddToSelection(node);
+                Graph.ProcessSelection();
             }
+
             panel1.Invalidate();
         }
 
         private void clear_button_Click(object sender, EventArgs e)
         {
-            this.graph.reset();
+            Graph.Reset();
             panel1.Invalidate();
         }
 
         private void reset_button_Click(object sender, EventArgs e)
         {
-            this.graph.reset_edges();
-            this.graph.reset_discovered();
-            this.graph.path.Clear();
+            Graph.ResetEdges();
+            Graph.ResetDiscovered();
+            Graph.Path.Clear();
             panel1.Invalidate();
         }
 
         private void preset_button_Click(object sender, EventArgs e)
         {
-            this.graph.reset();
-            Preset.get_preset(preset_size, panel1.Width, panel1.Height, this.graph);
-            Preset.connect_preset(graph);
+            Graph.Reset();
+            Preset.GetPreset(PresetSize, panel1.Width, panel1.Height, this.Graph);
+            Preset.ConnectPreset(Graph);
             panel1.Invalidate();
         }
 
@@ -125,11 +124,11 @@ namespace WindowsFormsApp3
         {
             try
             {
-                this.graph.path = this.graph.find_path();
+                this.Graph.Path = this.Graph.FindPath();
             }
             catch (Exception exception)
             {
-                DisplayUtility.display_message(exception.Message);
+                DisplayUtility.DisplayMessage(exception.Message);
             }
             panel1.Invalidate();
         }
@@ -138,19 +137,19 @@ namespace WindowsFormsApp3
         {
             string message;
 
-            message = "This is a toy pathfinding program.\n" +
+            message = "This is a toy Pathfinding program.\n" +
             "To add a node, click the panel in NODE MODE;\n" +
-            "To add an edge, click two nodes in EDGE MODE;\n" +
-            "To remove an edge, click two nodes that have a common edge;\n" +
-            "To find a path, select two nodes in NODE MODE and click FIND PATH;\n" +
-            "To use a premade graph, click USE PRESET.";
+            "To add an edge, click two Nodes in EDGE MODE;\n" +
+            "To remove an edge, click two Nodes that have a common edge;\n" +
+            "To find a Path, select two Nodes in NODE MODE and click FIND PATH;\n" +
+            "To use a premade Graph, click USE PRESET.";
 
-            DisplayUtility.display_message(message);
+            DisplayUtility.DisplayMessage(message);
         }
 
         private void preset_size_up_down_ValueChanged(object sender, EventArgs e)
         {
-            this.preset_size = (int)preset_size_up_down.Value;
+            PresetSize = (int)preset_size_up_down.Value;
         }
     }
 }

@@ -9,156 +9,147 @@ namespace WindowsFormsApp3
 {
     public class Graph
     {
-        public List<NodePoint> nodes;
-        public List<NodePoint> current_selection;
-        public List<NodePoint> terminals;
-        public List<NodePoint> path;
-        private Queue<NodePoint> node_queue;
+        public List<NodePoint> Nodes;
+        public List<NodePoint> CurrentSelection;
+        public List<NodePoint> Terminals;
+        public List<NodePoint> Path;
+        private Queue<NodePoint> NodeQueue;
 
         public Graph()
         {
-            this.nodes = new List<NodePoint>();
-            this.node_queue = new Queue<NodePoint>();
-            this.current_selection = new List<NodePoint>();
-            this.terminals = new List<NodePoint>();
-            this.path = new List<NodePoint>();
+            Nodes = new List<NodePoint>();
+            NodeQueue = new Queue<NodePoint>();
+            CurrentSelection = new List<NodePoint>();
+            Terminals = new List<NodePoint>();
+            Path = new List<NodePoint>();
         }
 
-        public void reset()
+        public void Reset()
         {
-            this.nodes.Clear();
-            this.current_selection.Clear();
-            this.terminals.Clear();
-            this.node_queue.Clear();
-            this.path.Clear();
+            Nodes.Clear();
+            CurrentSelection.Clear();
+            Terminals.Clear();
+            NodeQueue.Clear();
+            Path.Clear();
         }
 
-        public void add_to_selection(NodePoint node)
+        public void AddToSelection(NodePoint node)
         {
-            this.current_selection.Add(node);
+            CurrentSelection.Add(node);
         }
 
-        public void queue_terminal(NodePoint node)
+        public void QueueTerminal(NodePoint node)
         {
             int index;
 
-            index = this.terminals.IndexOf(node);
+            index = Terminals.IndexOf(node);
             if (index >= 0)
             {
-                this.terminals[index].toggle_terminal();
-                this.terminals.RemoveAt(index);
+                Terminals[index].ToggleTerminal();
+                Terminals.RemoveAt(index);
             }
-            else if (this.terminals.Count == 2)
+            else if (this.Terminals.Count == 2)
             {
-                this.terminals[0].toggle_terminal();
-                this.terminals.RemoveAt(0);
-                node.toggle_terminal();
-                this.terminals.Add(node);
+                Terminals[0].ToggleTerminal();
+                Terminals.RemoveAt(0);
+                node.ToggleTerminal();
+                Terminals.Add(node);
             }
             else
             {
-                node.toggle_terminal();
-                this.terminals.Add(node);
+                node.ToggleTerminal();
+                this.Terminals.Add(node);
             }
         }
 
-        public void process_selection()
+        public void ProcessSelection()
         {
-            int edge_index;
-
-            if (this.current_selection.Count == 2)
+            if (CurrentSelection.Count == 2)
             {
-                edge_index = this.current_selection[0].find_edge(this.current_selection[1]);
+                int edge_index = CurrentSelection[0].FindEdge(CurrentSelection[1]);
                 if (edge_index == -1)
                 {
-                    this.current_selection[0].add_edge(this.current_selection[1]);
+                    CurrentSelection[0].AddEdge(CurrentSelection[1]);
                 }
                 else
                 {
-                    this.current_selection[0].remove_edge(this.current_selection[1]);
-                    this.path.Clear();
+                    CurrentSelection[0].RemoveEdge(CurrentSelection[1]);
+                    Path.Clear();
                 }
-                this.current_selection[0].toggle();
-                this.current_selection[1].toggle();
-                this.current_selection.Clear();
+                CurrentSelection[0].ToggleActive();
+                CurrentSelection[1].ToggleActive();
+                CurrentSelection.Clear();
             }
         }
 
-        private void discover_edges(NodePoint node) //deprecated
+        private void EnqueueAndDiscover(NodePoint node)
         {
-            foreach (NodePoint _node in node.edges)
+            foreach (NodePoint _node in node.Edges)
             {
-                if (_node.discovered_via == null)
-                    _node.discovered_via = node;
-            }
-        }
-
-        private void enqueue_and_discover(NodePoint node)
-        {
-            foreach (NodePoint _node in node.edges)
-            {
-                if (_node.discovered_via == null)
+                if (_node.DiscoveredBy == null)
                 {
-                    this.node_queue.Enqueue(_node);
-                    _node.discovered_via = node;
+                    this.NodeQueue.Enqueue(_node);
+                    _node.DiscoveredBy = node;
                 }
             }
         }
 
-        public List<NodePoint> backtrack(NodePoint terminal)
+        public List<NodePoint> Backtrack(NodePoint terminal)
         {
-            NodePoint current_node;
-
-            current_node = terminal;
-            while (current_node != this.terminals[0])
+            NodePoint currentNode = terminal;
+            while (currentNode != Terminals[0])
             {
-                this.path.Add(current_node);
-                current_node = current_node.discovered_via;
+                Path.Add(currentNode);
+                currentNode = currentNode.DiscoveredBy;
             }
-            this.path.Add(current_node);
+            Path.Add(currentNode);
 
-            return this.path;
+            return Path;
         }
 
-        public List<NodePoint> find_path()
+        public List<NodePoint> FindPath()
         {
-            NodePoint current_node;
-
-            reset_discovered();
-            this.node_queue.Clear();
-            this.path.Clear();
-            if (this.terminals.Count != 2)
+            if (Terminals.Count != 2)
             {
-                throw new Exception("Select two points to find a path!");
+                throw new Exception("Select two points to find a Path!");
             }
-            enqueue_and_discover(this.terminals[0]);
-            while (this.node_queue.Count != 0)
+
+            NodePoint currentNode;
+
+            ResetDiscovered();
+            NodeQueue.Clear();
+            Path.Clear();            
+
+            EnqueueAndDiscover(Terminals[0]);
+
+            while (NodeQueue.Count != 0)
             {
-                current_node = this.node_queue.Dequeue();
-                if (current_node == this.terminals[1])
+                currentNode = NodeQueue.Dequeue();
+                if (currentNode == Terminals[1])
                 {
-                    return backtrack(current_node);
+                    return Backtrack(currentNode);
                 }
-                if (current_node == this.terminals[0])
+                if (currentNode == Terminals[0])
                     continue;
-                enqueue_and_discover(current_node);
+                EnqueueAndDiscover(currentNode);
             }
-            throw new Exception("There is no path");
+
+            throw new Exception("There is no Path");
         }
 
-        public void reset_edges()
+        public void ResetEdges()
         {
-            foreach (NodePoint node in this.nodes)
+            foreach (NodePoint node in Nodes)
             {
-                node.edges.Clear();
+                node.Edges.Clear();
             }
         }
 
-        public void reset_discovered()
+        public void ResetDiscovered()
         {
-            foreach (NodePoint node in this.nodes)
+            foreach (NodePoint node in Nodes)
             {
-                node.discovered_via = null;
+                node.DiscoveredBy = null;
             }
         }
     }

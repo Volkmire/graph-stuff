@@ -1,0 +1,15 @@
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\bin\Debug\netcoreapp3.1\GUI.exe
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\bin\Debug\netcoreapp3.1\GUI.deps.json
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\bin\Debug\netcoreapp3.1\GUI.runtimeconfig.json
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\bin\Debug\netcoreapp3.1\GUI.runtimeconfig.dev.json
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\bin\Debug\netcoreapp3.1\GUI.dll
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\bin\Debug\netcoreapp3.1\GUI.pdb
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\obj\Debug\netcoreapp3.1\GUI.csprojAssemblyReference.cache
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\obj\Debug\netcoreapp3.1\GUI.GraphGUI.resources
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\obj\Debug\netcoreapp3.1\GUI.csproj.GenerateResource.cache
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\obj\Debug\netcoreapp3.1\GUI.AssemblyInfoInputs.cache
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\obj\Debug\netcoreapp3.1\GUI.AssemblyInfo.cs
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\obj\Debug\netcoreapp3.1\GUI.csproj.CoreCompileInputs.cache
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\obj\Debug\netcoreapp3.1\GUI.dll
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\obj\Debug\netcoreapp3.1\GUI.pdb
+C:\Users\SIGMA11\source\repos\GraphGUI\GUI\obj\Debug\netcoreapp3.1\GUI.genruntimeconfig.cache

@@ -35,6 +35,7 @@
             this.drawRadioButton = new System.Windows.Forms.RadioButton();
             this.selectRadioButton = new System.Windows.Forms.RadioButton();
             this.modeGroup = new System.Windows.Forms.GroupBox();
+            this.debugOutput = new System.Windows.Forms.TextBox();
             this.modeGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,12 +112,22 @@
             this.modeGroup.TabStop = false;
             this.modeGroup.Text = "Modes";
             // 
+            // debugOutput
+            // 
+            this.debugOutput.Location = new System.Drawing.Point(503, 220);
+            this.debugOutput.Multiline = true;
+            this.debugOutput.Name = "debugOutput";
+            this.debugOutput.ReadOnly = true;
+            this.debugOutput.Size = new System.Drawing.Size(167, 217);
+            this.debugOutput.TabIndex = 4;
+            // 
             // GraphGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.ClientSize = new System.Drawing.Size(684, 450);
+            this.Controls.Add(this.debugOutput);
             this.Controls.Add(this.modeGroup);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.resetEdgesButton);
@@ -132,6 +143,7 @@
             this.modeGroup.ResumeLayout(false);
             this.modeGroup.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -143,5 +155,6 @@
         private System.Windows.Forms.GroupBox modeGroup;
         private System.Windows.Forms.Button resetEdgesButton;
         private System.Windows.Forms.Button clearButton;
+        private System.Windows.Forms.TextBox debugOutput;
     }
 }

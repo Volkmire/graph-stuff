@@ -12,6 +12,7 @@ namespace GUI.Models
         public List<NodeModel> Terminals { get; set; } = new List<NodeModel>(2);
         public NodeModel ActiveNode { get; set; }
         public int Radius { get; }
+        public string Message { get; set; }
         
         public CanvasModel(int radius)
         {

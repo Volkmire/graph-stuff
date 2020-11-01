@@ -27,7 +27,7 @@ namespace GUI
         {
             var canvas = new CanvasModel(10);
             _canvasController = new CanvasController(canvas);
-            _canvasView = new CanvasView(drawPanel.CreateGraphics(), canvas, drawPanel.BackColor);
+            _canvasView = new CanvasView(drawPanel.CreateGraphics(), canvas, drawPanel.BackColor, debugOutput);
             _canvasView.Render();
         }
 

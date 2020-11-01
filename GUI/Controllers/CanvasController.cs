@@ -81,13 +81,9 @@ namespace GUI.Controllers
                 var solution = await GraphApiConnector.PostGraphAsync(Mapper.ToGraphDto(_canvas));
                 UpdateSolution(solution);
             }
-            catch (NullReferenceException)
-            {
-                throw new Exception("No solution!");
-            }
             catch (Exception ex)
             {
-                throw ex;
+                _canvas.Message = ex.Message;
             }
         }
 
@@ -108,15 +104,17 @@ namespace GUI.Controllers
 
         private void UpdateSolution(List<EdgeDto> solution)
         {
-            if (solution != null)
-                solution.ForEach(edge =>
-                    _canvas.Solution.Add(
-                        new EdgeModel(
-                            _canvas.Nodes.Find(node => node.Id == edge.End1),
-                            _canvas.Nodes.Find(node => node.Id == edge.End2)
-                            )
+            if (solution.Count == 0)
+                throw new Exception("No result!");
+
+            solution.ForEach(edge =>
+                _canvas.Solution.Add(
+                    new EdgeModel(
+                        _canvas.Nodes.Find(node => node.Id == edge.End1),
+                        _canvas.Nodes.Find(node => node.Id == edge.End2)
                         )
-                    );
+                    )
+                );
         }
 
         [return: MaybeNull]

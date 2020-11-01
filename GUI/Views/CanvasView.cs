@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Windows.Forms;
 
 namespace GUI.Views
 {
@@ -15,13 +16,15 @@ namespace GUI.Views
         private readonly Brush _highlightBrush = new SolidBrush(Color.Red);        
         private readonly Pen _solutionPen = new Pen(Color.Green, 4);
         private readonly Brush _solutionBrush = new SolidBrush(Color.Green);
+        private readonly TextBox _debugOutput;
 
 
-        public CanvasView(Graphics graphics, CanvasModel canvas, Color backColor)
+        public CanvasView(Graphics graphics, CanvasModel canvas, Color backColor, TextBox debugOutput)
         {
             _graphics = graphics;
             _canvas = canvas;
             _backColor = backColor;
+            _debugOutput = debugOutput;
         }
 
         public void Render()
@@ -51,15 +54,19 @@ namespace GUI.Views
                 });
 
             if (_canvas.Solution != null)
+            {
                 _canvas.Solution.ForEach(edge =>
                 {
                     _graphics.DrawLine(
-                        _solutionPen, 
-                        edge.Ends.Item1.X, 
-                        edge.Ends.Item1.Y, 
-                        edge.Ends.Item2.X, 
+                        _solutionPen,
+                        edge.Ends.Item1.X,
+                        edge.Ends.Item1.Y,
+                        edge.Ends.Item2.X,
                         edge.Ends.Item2.Y);
                 });
+                _canvas.Solution.Clear();
+            }
+                
 
             if (_canvas.ActiveNode != null)
                 _graphics.FillEllipse(
@@ -79,6 +86,13 @@ namespace GUI.Views
                         _canvas.Radius,
                         _canvas.Radius);
                 });
+
+            if (_canvas.Message != null)
+            {
+                _debugOutput.Text = _canvas.Message;
+                _canvas.Message = "";
+            }
+                
         }
     }
 }

@@ -25,11 +25,18 @@ namespace GUI.Connector
 
             var response = await _client.PostAsync("/api/graph", content);
             var result = await response.Content.ReadAsStringAsync();
-            var finalResult = JsonSerializer.Deserialize<List<EdgeDto>>(result, new JsonSerializerOptions()
+            try
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
-            return finalResult;
+                return JsonSerializer.Deserialize<List<EdgeDto>>(result, new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
+            }
+            catch
+            {
+                throw new Exception(result);
+            }
+            
         }
     }
 }

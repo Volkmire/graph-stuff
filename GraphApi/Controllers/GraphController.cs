@@ -48,12 +48,10 @@ namespace GraphApi.Controllers
                         bestResult = tempResult;
             }
             
-            if(bestResult != null)
+            if(bestResult.Count > 0)
                 bestResult.Add(currentNode);
 
             return bestResult;
-        }
-
-        
+        }        
     }
 }

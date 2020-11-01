@@ -27,22 +27,38 @@ namespace GUI.Views
         public void Render()
         {
             _graphics.Clear(_backColor);
+
             if (_canvas.Nodes != null)
                 _canvas.Nodes.ForEach(node => 
                 {
-                    _graphics.DrawEllipse(_pen, node.X - _canvas.Radius/2, node.Y - _canvas.Radius/2, _canvas.Radius, _canvas.Radius);
+                    _graphics.DrawEllipse(
+                        _pen, 
+                        node.X - _canvas.Radius/2, 
+                        node.Y - _canvas.Radius/2, 
+                        _canvas.Radius, 
+                        _canvas.Radius);
                 });
             
             if (_canvas.Edges != null)
                 _canvas.Edges.ForEach(edge =>
                 {
-                    _graphics.DrawLine(_pen, edge.Ends.Item1.X, edge.Ends.Item1.Y, edge.Ends.Item2.X, edge.Ends.Item2.Y);
+                    _graphics.DrawLine(
+                        _pen, 
+                        edge.Ends.Item1.X, 
+                        edge.Ends.Item1.Y, 
+                        edge.Ends.Item2.X, 
+                        edge.Ends.Item2.Y);
                 });
 
             if (_canvas.Solution != null)
                 _canvas.Solution.ForEach(edge =>
                 {
-                    _graphics.DrawLine(_solutionPen, edge.Ends.Item1.X, edge.Ends.Item1.Y, edge.Ends.Item2.X, edge.Ends.Item2.Y);
+                    _graphics.DrawLine(
+                        _solutionPen, 
+                        edge.Ends.Item1.X, 
+                        edge.Ends.Item1.Y, 
+                        edge.Ends.Item2.X, 
+                        edge.Ends.Item2.Y);
                 });
 
             if (_canvas.ActiveNode != null)
@@ -51,8 +67,7 @@ namespace GUI.Views
                     _canvas.ActiveNode.X - _canvas.Radius / 2, 
                     _canvas.ActiveNode.Y - _canvas.Radius / 2, 
                     _canvas.Radius, 
-                    _canvas.Radius
-                );
+                    _canvas.Radius);
 
             if (_canvas.Terminals != null)
                 _canvas.Terminals.ForEach(terminal =>
@@ -62,11 +77,8 @@ namespace GUI.Views
                         terminal.X - _canvas.Radius / 2,
                         terminal.Y - _canvas.Radius / 2,
                         _canvas.Radius,
-                        _canvas.Radius
-                    );
+                        _canvas.Radius);
                 });
-            
-
         }
     }
 }

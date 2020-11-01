@@ -1,7 +1,11 @@
-﻿using GUI.Models;
+﻿using GUI.Connector;
+using GUI.Models;
+using GUI.Utility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using GraphLibrary.Dtos;
+using System.Net.Http;
 using System.Text;
 
 namespace GUI.Controllers
@@ -38,7 +42,7 @@ namespace GUI.Controllers
                 // если активированных нод нет, то активируем
                 _canvas.ActiveNode = adjacentNode;
                 return;
-            }            
+            }
 
             if (_canvas.ActiveNode != adjacentNode)
             {
@@ -68,7 +72,25 @@ namespace GUI.Controllers
 
             _canvas.Terminals.Add(node);
         }
-        
+
+        internal async void  FindPathAsync()
+        {
+            try
+            {
+                var solution = await GraphApiConnector.PostGraphAsync(Mapper.ToGraphDto(_canvas));
+                UpdateSolution(solution);
+            }
+            catch (NullReferenceException)
+            {
+                throw new Exception("No solution!");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+        }
+
         internal void ResetEdges() => _canvas.Edges.Clear();
 
         internal void Clear()
@@ -77,6 +99,19 @@ namespace GUI.Controllers
             _canvas.Edges.Clear();
             _canvas.Solution.Clear();
             _canvas.ActiveNode = null;
+        }
+
+        private void UpdateSolution(List<Tuple<string,string>> solution)
+        {
+            if(solution != null)
+                solution.ForEach(edge =>
+                    _canvas.Solution.Add(
+                        new EdgeModel(
+                            _canvas.Nodes.Find(node => node.Id == edge.Item1),
+                            _canvas.Nodes.Find(node => node.Id == edge.Item2)
+                            )
+                        )
+                    );
         }
 
         [return: MaybeNull]

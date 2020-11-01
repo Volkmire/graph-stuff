@@ -55,6 +55,7 @@
             this.findPathButton.TabIndex = 3;
             this.findPathButton.Text = "Find Path";
             this.findPathButton.UseVisualStyleBackColor = true;
+            this.findPathButton.Click += new System.EventHandler(this.FindPathButton_Click);
             // 
             // resetEdgesButton
             // 

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphStuff", "WindowsFormsApp3\GraphStuff.csproj", "{BABDC947-67EB-4AEA-9AF0-306DA4A25DF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GUI", "GUI\GUI.csproj", "{9409A879-83BC-4AD5-821D-9E9DCA428E25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{9409A879-83BC-4AD5-821D-9E9DCA428E25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphApi", "GraphApi\GraphApi.csproj", "{20EBE6BF-8C99-4A69-94E2-230A32DCAF68}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphLibrary", "GraphLibrary\GraphLibrary.csproj", "{ABC5B2DE-DBE9-400B-805D-332307981B95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BABDC947-67EB-4AEA-9AF0-306DA4A25DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BABDC947-67EB-4AEA-9AF0-306DA4A25DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BABDC947-67EB-4AEA-9AF0-306DA4A25DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BABDC947-67EB-4AEA-9AF0-306DA4A25DF2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9409A879-83BC-4AD5-821D-9E9DCA428E25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9409A879-83BC-4AD5-821D-9E9DCA428E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9409A879-83BC-4AD5-821D-9E9DCA428E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9409A879-83BC-4AD5-821D-9E9DCA428E25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20EBE6BF-8C99-4A69-94E2-230A32DCAF68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20EBE6BF-8C99-4A69-94E2-230A32DCAF68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20EBE6BF-8C99-4A69-94E2-230A32DCAF68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20EBE6BF-8C99-4A69-94E2-230A32DCAF68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABC5B2DE-DBE9-400B-805D-332307981B95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABC5B2DE-DBE9-400B-805D-332307981B95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABC5B2DE-DBE9-400B-805D-332307981B95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABC5B2DE-DBE9-400B-805D-332307981B95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,7 +13,7 @@ namespace GUI.Views
         private readonly Color _backColor;
         private readonly Pen _pen = new Pen(Color.Black, 2);
         private readonly Brush _highlightBrush = new SolidBrush(Color.Red);        
-        private readonly Pen _solutionPen = new Pen(Color.Green, 2);
+        private readonly Pen _solutionPen = new Pen(Color.Green, 4);
         private readonly Brush _solutionBrush = new SolidBrush(Color.Green);
 
 

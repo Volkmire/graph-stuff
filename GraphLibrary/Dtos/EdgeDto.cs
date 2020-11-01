@@ -6,6 +6,7 @@ namespace GraphLibrary.Dtos
 {
     public class EdgeDto
     {
-        public Tuple<string, string> Ends { get; set; }
+        public string End1 { get; set; }
+        public string End2 { get; set; }
     }
 }

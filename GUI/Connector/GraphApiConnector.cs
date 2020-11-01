@@ -16,7 +16,7 @@ namespace GUI.Connector
             Timeout = new TimeSpan(0, 0, 10)
         };
 
-        public static async Task<List<Tuple<string, string>>> PostGraphAsync(GraphDto graph)
+        public static async Task<List<EdgeDto>> PostGraphAsync(GraphDto graph)
         {
             // пиздец хуйня какая-то с этими await'ами
 
@@ -24,7 +24,12 @@ namespace GUI.Connector
             content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
             var response = await _client.PostAsync("/api/graph", content);
-            return await JsonSerializer.DeserializeAsync<List<Tuple<string, string>>>(await response.Content.ReadAsStreamAsync());
+            var result = await response.Content.ReadAsStringAsync();
+            var finalResult = JsonSerializer.Deserialize<List<EdgeDto>>(result, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+            return finalResult;
         }
     }
 }

@@ -58,9 +58,9 @@ namespace GUI
             selectRadioButton.Checked = !drawRadioButton.Checked;
         }
 
-        private void FindPathButton_Click(object sender, EventArgs e)
+        private async void FindPathButton_ClickAsync(object sender, EventArgs e)
         {
-            _canvasController.FindPathAsync();
+            await _canvasController.FindPathAsync();
             _canvasView.Render();
         }
     }

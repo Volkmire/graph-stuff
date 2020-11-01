@@ -10,7 +10,8 @@ namespace GUI.Utility
     {
         public static EdgeDto ToEdgeDto(EdgeModel edge) => new EdgeDto()
         {
-            Ends = new Tuple<string, string>(edge.Ends.Item1.Id, edge.Ends.Item2.Id)
+            End1 = edge.Ends.Item1.Id,                
+            End2 = edge.Ends.Item2.Id
         };
 
         public static NodeDto ToNodeDto(NodeModel node) => new NodeDto()

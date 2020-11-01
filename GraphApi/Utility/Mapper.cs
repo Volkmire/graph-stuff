@@ -18,8 +18,8 @@ namespace GraphApi.Utility
 
             foreach (var edge in graphDto.Edges)
             {
-                var edge1 = graph.Nodes.Find(node => node.Id == edge.Ends.Item1);
-                var edge2 = graph.Nodes.Find(node => node.Id == edge.Ends.Item2);
+                var edge1 = graph.Nodes.Find(node => node.Id == edge.End1);
+                var edge2 = graph.Nodes.Find(node => node.Id == edge.End2);
 
                 edge1.Edges.Add(edge2);
                 edge2.Edges.Add(edge1);
@@ -44,7 +44,8 @@ namespace GraphApi.Utility
             {
                 nodeDtos.Add(new EdgeDto()
                 {
-                    Ends = new Tuple<string, string>(nodes[i].Id, nodes[i + 1].Id)
+                    End1 = nodes[i].Id, 
+                    End2 = nodes[i + 1].Id
                 });
             }
 

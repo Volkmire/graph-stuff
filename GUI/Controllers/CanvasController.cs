@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using GraphLibrary.Dtos;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace GUI.Controllers
 {
@@ -73,7 +74,7 @@ namespace GUI.Controllers
             _canvas.Terminals.Add(node);
         }
 
-        internal async void  FindPathAsync()
+        internal async Task FindPathAsync()
         {
             try
             {
@@ -88,27 +89,31 @@ namespace GUI.Controllers
             {
                 throw ex;
             }
-            
         }
 
-        internal void ResetEdges() => _canvas.Edges.Clear();
+        internal void ResetEdges()
+        {
+            _canvas.Edges.Clear();
+            _canvas.Solution.Clear();
+        }
 
         internal void Clear()
         {
             _canvas.Nodes.Clear();
             _canvas.Edges.Clear();
             _canvas.Solution.Clear();
+            _canvas.Terminals.Clear();
             _canvas.ActiveNode = null;
         }
 
-        private void UpdateSolution(List<Tuple<string,string>> solution)
+        private void UpdateSolution(List<EdgeDto> solution)
         {
-            if(solution != null)
+            if (solution != null)
                 solution.ForEach(edge =>
                     _canvas.Solution.Add(
                         new EdgeModel(
-                            _canvas.Nodes.Find(node => node.Id == edge.Item1),
-                            _canvas.Nodes.Find(node => node.Id == edge.Item2)
+                            _canvas.Nodes.Find(node => node.Id == edge.End1),
+                            _canvas.Nodes.Find(node => node.Id == edge.End2)
                             )
                         )
                     );

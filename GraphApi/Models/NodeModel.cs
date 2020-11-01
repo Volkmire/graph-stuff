@@ -8,7 +8,7 @@ namespace GraphApi.Models
     public class NodeModel
     {
         public string Id { get; set; }
-        public List<NodeModel> Edges { get; set; }
+        public List<NodeModel> Edges { get; set; } = new List<NodeModel>();
         public bool IsTerminal { get; set; }
     }
 }

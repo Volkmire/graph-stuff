@@ -43,8 +43,9 @@ namespace GraphApi.Controllers
             foreach (var node in currentNode.Edges)
             {
                 tempResult = FindPath(sourceNode, node, maxDepth - 1);
-                if (tempResult.Count < bestResult.Count && tempResult.Count > 0 || bestResult.Count == 0)
-                    bestResult = tempResult;
+                if (tempResult != null)
+                    if (tempResult.Count < bestResult.Count && tempResult.Count > 0 || bestResult.Count == 0)
+                        bestResult = tempResult;
             }
             
             if(bestResult != null)

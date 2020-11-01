@@ -37,7 +37,7 @@ namespace GraphApi.Utility
             };
         }
 
-        public static List<EdgeDto> ToNodeDto(List<NodeModel> nodes)
+        public static List<EdgeDto> ToEdgeDtos(List<NodeModel> nodes)
         {
             var nodeDtos = new List<EdgeDto>();
             for (int i = 0; i < nodes.Count - 1; i++)

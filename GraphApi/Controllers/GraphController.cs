@@ -25,7 +25,7 @@ namespace GraphApi.Controllers
             }
 
             var nodeSolution = FindPath(terminals[0], terminals[0], graph.Nodes.Count);
-            var solution = Mapper.ToNodeDto(nodeSolution);
+            var solution = Mapper.ToEdgeDtos(nodeSolution);
             return Ok(solution);
         }
 
